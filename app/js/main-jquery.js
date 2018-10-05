@@ -76,6 +76,72 @@ const targetHeader = eventTarget.get(0).tagName.toLowerCase() == "a" ? eventTarg
 });
 
         
+/*
+ * Loaders
+ */
+
+const button = document.querySelector('button');
+
+button.addEventListener('click', event => {
+    document.querySelector('html').classList
+        .add('is-loading', 'prevent-scroll');
+});
+
+function activateLoader() {
+    document.querySelector('html').classList
+        .add('is-loading', 'prevent-scroll');
+}
+
+function deactivateLoader() {
+    document.querySelector('html').classList
+        .remove('is-loading', 'prevent-scroll');
+}
+
+//activateLoader();
+
+setTimeout(() => {
+    deactivateLoader();
+}, 1000);
+
+/*
+ * Modal
+ */
+
+const modal = document.querySelector('.modal');
+const html = document.querySelector('html');
+
+// Open Modal
+function openModal() {
+    const modalBox = modal.querySelector('.modal__box');
+    modalBox.classList.remove('is-leaving');
+    modal.classList.add('is-active');
+    html.classList
+        .add('prevent-scroll');
+}
+
+// Close Modal
+function closeModal() {
+    const modalBox = modal.querySelector('.modal__box');
+    modalBox.classList.add('is-leaving');
+    setTimeout(() => {
+        modal.classList.remove('is-active');
+        html.classList
+            .remove('prevent-scroll');
+    }, 350)
+}
+
+// Escape keypress
+document.addEventListener('keydown', event => {
+    if(event.key === 'Escape') {
+        closeModal();
+        deactivateLoader();
+    }
+});
+
+modal.addEventListener('click', closeModal);
+modal.querySelector('.modal__box').addEventListener('click', event => {
+    event.stopPropagation();
+});
     
 
 
