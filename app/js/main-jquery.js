@@ -7,6 +7,12 @@ $j(document).ready(function(e) {
 
 
 const tabsList = $j('.tabs__list');
+const accordion = $j('.accordion');
+const button = $j('button');
+const modal = $j('.modal');
+const html = $j('html');
+
+
 
 // Add click listener to whole link list
 
@@ -46,15 +52,10 @@ const eventTarget = $j(event.target);
    
 });
 
-
-});
-
-// DA COMPLETARE
 /*
 * Accordion
  */
 
-const accordion = $j('.accordion');
 
 accordion.on('click', '.accordion__header a, .accordion__header a img', function(event) {
 	event.preventDefault();
@@ -67,81 +68,61 @@ const targetHeader = eventTarget.get(0).tagName.toLowerCase() == "a" ? eventTarg
 
         // Panels
         const allPanels = $j('.accordion__panel');
-        targetPanel.toggle('is-active');
+        targetPanel.toggleClass('is-active');
 
         // Headers
         const allHeaders = $j('.accordion__header');
-        targetHeader.toggle('is-active');
+        targetHeader.toggleClass('is-active');
 
 });
 
-        
 /*
  * Loaders
  */
 
-const button = document.querySelector('button');
+ button.on('click', function(event) {
+ 	event.preventDefault();
+ 	/* Act on the event */
 
-button.addEventListener('click', event => {
-    document.querySelector('html').classList
-        .add('is-loading', 'prevent-scroll');
-});
+activateLoader();			// Activate loader on click
 
-function activateLoader() {
-    document.querySelector('html').classList
-        .add('is-loading', 'prevent-scroll');
+
+ setTimeout(function(){		// Remove loader after two seconds
+
+deactivateLoader();
+ }, 2000);
+
+ });
+
+ function activateLoader() {
+$j("html").addClass('is-loading prevent-scroll');
+
+ }
+
+function deactivateLoader () {
+	$j("html").removeClass('is-loading prevent-scroll');
 }
-
-function deactivateLoader() {
-    document.querySelector('html').classList
-        .remove('is-loading', 'prevent-scroll');
-}
-
-//activateLoader();
-
-setTimeout(() => {
-    deactivateLoader();
-}, 1000);
 
 /*
  * Modal
  */
 
-const modal = document.querySelector('.modal');
-const html = document.querySelector('html');
 
 // Open Modal
 function openModal() {
-    const modalBox = modal.querySelector('.modal__box');
-    modalBox.classList.remove('is-leaving');
-    modal.classList.add('is-active');
-    html.classList
-        .add('prevent-scroll');
+    const modalBox = $j('.modal__box');
+    modalBox.removeClass('is-leaving');
+    modalBox.addClass('is-active');
+    html.addClass('prevent-scroll');
 }
 
-// Close Modal
-function closeModal() {
-    const modalBox = modal.querySelector('.modal__box');
-    modalBox.classList.add('is-leaving');
-    setTimeout(() => {
-        modal.classList.remove('is-active');
-        html.classList
-            .remove('prevent-scroll');
-    }, 350)
-}
 
-// Escape keypress
-document.addEventListener('keydown', event => {
-    if(event.key === 'Escape') {
-        closeModal();
-        deactivateLoader();
-    }
 });
 
-modal.addEventListener('click', closeModal);
-modal.querySelector('.modal__box').addEventListener('click', event => {
-    event.stopPropagation();
-});
+/******** End of ready function ********/
+
+
+        
     
 
 
